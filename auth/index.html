@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Private Site</title>
+</head>
+<body>
+	<h1>Welcome to my private site!</h1>
+	<p>Please enter the access code to continue:</p>
+	<form onsubmit="return checkAccessCode()">
+		<input type="password" id="access-code-input">
+		<input type="submit" value="Submit">
+	</form>
+	<script>
+		function checkAccessCode() {
+			var accessCode = document.getElementById("access-code-input").value;
+			if (accessCode === "your-access-code") {
+				return true;
+			} else {
+				alert("Access code is incorrect. Please try again.");
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>
