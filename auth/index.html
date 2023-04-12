@@ -5,20 +5,29 @@
 </head>
 <body>
 	<h1>Welcome to my private site!</h1>
-	<p>Please enter the access code to continue:</p>
-	<form onsubmit="return checkAccessCode()">
-		<input type="password" id="access-code-input">
-		<input type="submit" value="Submit">
-	</form>
+	<p>Please authorize with GitHub to continue:</p>
+	<a href="https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=user">
+		<button>Authorize with GitHub</button>
+	</a>
 	<script>
-		function checkAccessCode() {
-			var accessCode = document.getElementById("access-code-input").value;
-			if (accessCode === "your-access-code") {
-				return true;
-			} else {
-				alert("Access code is incorrect. Please try again.");
-				return false;
-			}
+		var queryString = window.location.search;
+		if (queryString.includes("code")) {
+			var code = queryString.split("=")[1];
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "https://github.com/login/oauth/access_token", true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onload = function() {
+				var responseText = xhr.responseText;
+				var accessToken = responseText.split("=")[1].split("&")[0];
+				window.location.href = "https://api.github.com/user?access_token=" + accessToken;
+			};
+			var body = {
+				client_id: "YOUR_CLIENT_ID",
+				client_secret: "YOUR_CLIENT_SECRET",
+				code: code,
+				redirect_uri: "YOUR_REDIRECT_URI"
+			};
+			xhr.send(JSON.stringify(body));
 		}
 	</script>
 </body>
