@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bing Search Automation</title>
+  <script>
+    let desktopSearchCount = 0;
+    let mobileSearchCount = 0;
+    
+    function performRandomSearch() {
+      const searchQuery = generateRandomSearchQuery();
+      const searchUrl = `https://www.bing.com/search?q=${searchQuery}`;
+      const searchFrame = document.getElementById('search-frame');
+      searchFrame.src = searchUrl;
+      
+      desktopSearchCount++;
+      if (desktopSearchCount % 10 === 0) {
+        simulateMobileDevice();
+        mobileSearchCount++;
+      }
+      
+      if (desktopSearchCount + mobileSearchCount < TOTAL_SEARCH_COUNT) {
+        setTimeout(performRandomSearch, 5000); // Wait 5 seconds between searches
+      }
+    }
+    
+    function generateRandomSearchQuery() {
+      // Replace this with your own logic to generate random search queries
+      const searchTerms = ['cats', 'dogs', 'pizza', 'beaches', 'mountains'];
+      return searchTerms[Math.floor(Math.random() * searchTerms.length)];
+    }
+    
+    function simulateMobileDevice() {
+      // Replace this with code to modify the user agent string to simulate a mobile device
+      console.log('Switching to mobile searches...');
+    }
+  </script>
+</head>
+<body onload="performRandomSearch()">
+  <iframe id="search-frame" src="https://www.bing.com"></iframe>
+</body>
+</html>
