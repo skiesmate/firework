@@ -32,8 +32,8 @@
     }
     
     function simulateMobileDevice() {
-      // Replace this with code to modify the user agent string to simulate a mobile device
-      console.log('Switching to mobile searches...');
+      const searchFrame = document.getElementById('search-frame');
+      searchFrame.contentWindow.navigator.userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1';
     }
   </script>
 </head>
