@@ -6,6 +6,7 @@
   <script>
     let desktopSearchCount = 0;
     let mobileSearchCount = 0;
+    const TOTAL_SEARCH_COUNT = 20; // Change this to the total number of searches you want to perform
     
     function performRandomSearch() {
       const searchQuery = generateRandomSearchQuery();
@@ -36,7 +37,14 @@
     }
   </script>
 </head>
-<body onload="performRandomSearch()">
+<body onload="performSearches()">
   <iframe id="search-frame" src="https://www.bing.com"></iframe>
+  <script>
+    function performSearches() {
+      for (let i = 0; i < TOTAL_SEARCH_COUNT; i++) {
+        setTimeout(performRandomSearch, i * 5000); // Wait 5 seconds between searches
+      }
+    }
+  </script>
 </body>
 </html>
