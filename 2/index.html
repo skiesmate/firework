@@ -15,7 +15,7 @@
       searchFrame.src = searchUrl;
       
       desktopSearchCount++;
-      if (desktopSearchCount % 10 === 0) {
+      if (desktopSearchCount % 3 === 0) {
         simulateMobileDevice();
         mobileSearchCount++;
       }
@@ -32,8 +32,20 @@
     }
     
     function simulateMobileDevice() {
-      const searchFrame = document.getElementById('search-frame');
-      searchFrame.contentWindow.navigator.userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1';
+      const mobileUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1';
+      
+      const mobileFrame = document.createElement('iframe');
+      mobileFrame.id = 'search-frame';
+      mobileFrame.style.display = 'none';
+      mobileFrame.src = 'about:blank';
+      document.body.appendChild(mobileFrame);
+      
+      mobileFrame.contentWindow.navigator.__defineGetter__('userAgent', function() {
+        return mobileUserAgent;
+      });
+      
+      const oldFrame = document.getElementById('search-frame');
+      document.body.removeChild(oldFrame);
     }
   </script>
 </head>
