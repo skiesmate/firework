@@ -1,62 +1,30 @@
 <!DOCTYPE html>
-<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Bing Search Automation</title>
+  <link rel="icon" href="./index.ico" type="image/x-icon" />
+  <title>skiesmate</title>
+  <script type="module" crossorigin src="./index.js"></script>
   <script>
-    let desktopSearchCount = 0;
-    let mobileSearchCount = 0;
-    const TOTAL_SEARCH_COUNT = 20; // Change this to the total number of searches you want to perform
+    const MOBILE_USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1';
     
-    function performRandomSearch() {
-      const searchQuery = generateRandomSearchQuery();
-      const searchUrl = `https://www.bing.com/search?q=${searchQuery}`;
-      const searchFrame = document.getElementById('search-frame');
-      searchFrame.src = searchUrl;
-      
-      desktopSearchCount++;
-      if (desktopSearchCount % 3 === 0) {
-        simulateMobileDevice();
-        mobileSearchCount++;
-      }
-      
-      if (desktopSearchCount + mobileSearchCount < TOTAL_SEARCH_COUNT) {
-        setTimeout(performRandomSearch, 5000); // Wait 5 seconds between searches
-      }
-    }
-    
-    function generateRandomSearchQuery() {
-      // Replace this with your own logic to generate random search queries
-      const searchTerms = ['cats', 'dogs', 'pizza', 'beaches', 'mountains'];
-      return searchTerms[Math.floor(Math.random() * searchTerms.length)];
-    }
-    
-    function simulateMobileDevice() {
-      const mobileUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1';
-      
-      const mobileFrame = document.createElement('iframe');
-      mobileFrame.id = 'search-frame';
-      mobileFrame.style.display = 'none';
-      mobileFrame.src = 'about:blank';
-      document.body.appendChild(mobileFrame);
-      
-      mobileFrame.contentWindow.navigator.__defineGetter__('userAgent', function() {
-        return mobileUserAgent;
-      });
-      
-      const oldFrame = document.getElementById('search-frame');
-      document.body.removeChild(oldFrame);
-    }
+    window.onload = function() {
+      setTimeout(function() {
+        const msBingFrame = document.getElementById('msBingFrame');
+        const msBingFrameWindow = msBingFrame.contentWindow;
+        const originalNavigator = Object.create(msBingFrameWindow.navigator);
+        msBingFrameWindow.navigator.__proto__ = {
+          userAgent: MOBILE_USER_AGENT,
+          appVersion: originalNavigator.appVersion,
+          platform: originalNavigator.platform,
+          vendor: originalNavigator.vendor,
+          product: originalNavigator.product,
+          productSub: originalNavigator.productSub,
+          vendorSub: originalNavigator.vendorSub,
+          buildID: originalNavigator.buildID
+        };
+      }, 30000); // Wait 30 seconds before changing user agent to mobile
+    };
   </script>
 </head>
-<body onload="performSearches()">
-  <iframe id="search-frame" src="https://www.bing.com"></iframe>
-  <script>
-    function performSearches() {
-      for (let i = 0; i < TOTAL_SEARCH_COUNT; i++) {
-        setTimeout(performRandomSearch, i * 5000); // Wait 5 seconds between searches
-      }
-    }
-  </script>
+<body>
+  <iframe id="msBingFrame" width="100%" height="100%"> </iframe>
 </body>
-</html>
