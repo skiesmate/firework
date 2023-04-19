@@ -2,9 +2,7 @@
   .hidden-iframe {
     width: 0;
     height: 0;
-    visibility: hidden;
-    display: none;
+    visibility: hidden !important;
+    display: none !important;
   }
 </style>
-
-<iframe class="hidden-iframe" src="your-script-url"></iframe>
