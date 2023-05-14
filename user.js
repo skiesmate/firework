@@ -81,7 +81,7 @@ const m = ()=>{
         e.src = `https://www.bing.com/search?q=${t}`,
         a++,
         console.log("counter", a),
-        a === 10 && clearInterval(i)
+        a === 35 && clearInterval(i)
     }
     , 3e3)
 }
