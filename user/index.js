@@ -72,7 +72,7 @@ const m = ()=>{
     const e = document.getElementById("msBingFrame");
     let a = 0, i;
     const n = ()=>{
-        const t = Math.floor(Math.random() * 10) + 1;
+        const t = Math.floor(Math.random() * 2) + 2;
         return g(t).join(" ")
     }
     ;
@@ -81,7 +81,7 @@ const m = ()=>{
         e.src = `https://www.bing.com/search?q=${t}`,
         a++,
         console.log("counter", a),
-        a === 35 && clearInterval(i)
+        a === 10 && clearInterval(i)
     }
     , 3e3)
 }
